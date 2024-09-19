@@ -20,7 +20,10 @@ sudo apt-get install neovim
 - '~/.config/lazygit/config.yml'  
 
 
-# 4.screenfetch  
+# 4.fastfetch  
+sudo add-apt-repository ppa:zhangsongcui3371/fastfetch  
+sudo apt update  
+sudo apt install fastfetch  
 
 
 # 5.texlive2024  

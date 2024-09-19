@@ -107,7 +107,7 @@ alias reload='source ~/.bashrc'
 alias q='exit'
 
 alias gg='lazygit'
-alias fe='screenfetch'
+alias fe='fastfetch --logo Ubuntu'
 alias vi='nvim'
 alias vim='nvim'
 
