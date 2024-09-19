@@ -21,6 +21,7 @@ sudo apt-get install neovim
 
 
 # 4.fastfetch  
+安装步骤:  
 sudo add-apt-repository ppa:zhangsongcui3371/fastfetch  
 sudo apt update  
 sudo apt install fastfetch  
