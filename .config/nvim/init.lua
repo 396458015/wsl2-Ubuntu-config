@@ -1,6 +1,6 @@
 -- NEOVIM without plugin
 
--- {{{ mapping - original neovim
+-- {{{ Mapping - original neovim
 vim.g.mapleader      = " "
 vim.g.maplocalleader = ","
 
@@ -146,14 +146,28 @@ end
 neomap('n', '<leader>\\', ':lua Smart_split()<CR>', { desc = 'Smart split' })
 -- }}}
 
+-- vim.cmd('colorscheme morning')
 -- vim.cmd('colorscheme evening')
 -- vim.cmd('colorscheme desert')
--- vim.cmd('colorscheme morning')
+-- vim.cmd('colorscheme gruvbox')
 -- vim.cmd('colorscheme catppuccin_latte')
 vim.cmd('colorscheme catppuccin_frappe')
--- vim.cmd('colorscheme gruvbox')
 
--- {{{ font
+-- {{{ Highlihgt
+-- Ubuntu-like color config for frappe
+vim.api.nvim_set_hl(0, "Normal", { bg = "#300a24", fg="#abb2bf" })
+vim.api.nvim_set_hl(0, "FoldColumn", { bg = "#300a24",fg = "#737994" })
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "#300a24",fg = "#51576D" })
+vim.api.nvim_set_hl(0, "String", { fg = "#89a862" })
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "#300a24", fg = "#c0c4bc" })
+vim.api.nvim_set_hl(0, "Folded", { bg = "#75507b", fg = "#c0c4bc" })
+
+-- Search and IncSearch color
+vim.api.nvim_set_hl(0, "Search", { fg = "#e1e2e7", bg = "#40a02b" })
+vim.api.nvim_set_hl(0, "IncSearch", { fg = "#000000", bg = "#e78284", bold = true })
+-- }}}
+
+-- {{{ Font
 -- English (all have Nerd): 'Delugia Mono' ≈ Cascadia Code; 'CodeNewRoman NFM'; 'OperatorMono NF'; 'ComicMono NF'
 -- 中文: 'Noto Sans Mono CJK SC' (whitout Nerd); LXGW WenKai Mono (whitout Nerd); 'inconsolatago qihei nf' (Nerd)
 vim.opt.guifont     = "Delugia Mono:h12"
@@ -191,7 +205,7 @@ neomap("i", "<C-ScrollWheelUp>", "<ESC>:call AdjustFontSize(1)<CR>a", key_opts_n
 neomap("i", "<C-ScrollWheelDown>", "<ESC>:call AdjustFontSize(-1)<CR>a", key_opts_ns)
 -- }}}
 
--- {{{ options
+-- {{{ Options
 vim.g.have_nerd_font = true
 local vim_opts = {
     autochdir = true,  -- 设定文件浏览器目录为当前目录
@@ -291,7 +305,7 @@ vim.g.clipboard = {
 vim.cmd([[ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]])
 -- }}}
 
--- {{{ autocmds
+-- {{{ Autocmds
 vim.cmd[[
 
 " 解决matlab中文乱码的问题
@@ -363,7 +377,7 @@ nvim_create_augroups({
 })
 -- }}}
 
--- {{{ statusline
+-- {{{ Statusline
 -- 定义获取当前模式的函数
 _G.get_mode = function()
   local mode_map = {
@@ -386,17 +400,11 @@ local statusline = {
   '%r',                      -- 只读标志
   '%m',                      -- 修改标志
   '%=',                      -- 分隔符，左边内容靠左，右边内容靠右
-  '%{&filetype}',            -- 文件类型
+  '[%{&filetype}]',          -- 文件类型
   ' %2p%%',                  -- 文件百分比
   ' %-2c:%3l '               -- 列号和行号
 }
 vim.o.statusline = table.concat(statusline, '')
--- }}}
-
--- {{{ highlihgt
-vim.api.nvim_set_hl(0, "StatusLine", { bg = "#9fbd73", fg = "#000000" })
-vim.api.nvim_set_hl(0, "Search", { fg = "#e1e2e7", bg = "#40a02b" })
-vim.api.nvim_set_hl(0, "IncSearch", { fg = "#000000", bg = "#e78284", bold = true })
 -- }}}
 
 -- {{{ Auto Completion
