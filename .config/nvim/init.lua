@@ -149,8 +149,8 @@ neomap('n', '<leader>\\', ':lua Smart_split()<CR>', { desc = 'Smart split' })
 -- vim.cmd('colorscheme evening')
 -- vim.cmd('colorscheme desert')
 -- vim.cmd('colorscheme morning')
-vim.cmd('colorscheme catppuccin_latte')
--- vim.cmd('colorscheme catppuccin_frappe')
+-- vim.cmd('colorscheme catppuccin_latte')
+vim.cmd('colorscheme catppuccin_frappe')
 -- vim.cmd('colorscheme gruvbox')
 
 -- {{{ font
@@ -258,6 +258,7 @@ local vim_opts = {
     wildmode = "longest:full,full",  -- Command-line completion mode
     wrap = true,
     writebackup = false,
+    inccommand="nosplit"
     -- shell = "C:/PROGRA~1/PowerShell/7/pwsh.exe" -- pwsh7,启动速度200+ms
 }
 for k, v in pairs(vim_opts) do
@@ -461,6 +462,53 @@ noremap <silent> <leader>ci :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader
 ]]
 -- }}}
 
+-- {{{ HighlightSearch
+-- https://vi.stackexchange.com/questions/18546/can-i-use-a-different-color-for-the-selected-match-than-for-other-matches
+vim.cmd[[
+function! HighlightSearch(timer)
+    if (g:firstCall)
+        let g:originalStatusLineHLGroup = execute("hi StatusLine")
+        let g:firstCall = 0
+    endif
+    if (exists("g:searching") && g:searching)
+        let searchString = getcmdline()
+        if searchString == "" 
+            let searchString = "."
+        endif
+        let newBG = search(searchString) != 0 ? "green" : "red"
+        if searchString == "."
+            set whichwrap+=h
+            normal h
+            set whichwrap-=h
+        endif
+        execute("hi StatusLine ctermfg=0" . newBG)
+        let g:highlightTimer = timer_start(50, 'HighlightSearch')
+        let g:searchString = searchString
+    else
+        let originalBG = matchstr(g:originalStatusLineHLGroup, 'ctermfg=\zs[^ ]\+')
+        execute("hi StatusLine ctermfg=0" . originalBG)
+        if exists("g:highlightTimer")
+            call timer_stop(g:highlightTimer)
+            call HighlightCursorMatch()
+        endif
+    endif
+endfunction
+function! HighlightCursorMatch() 
+    try
+        let l:patt = '\%#'
+        if &ic | let l:patt = '\c' . l:patt | endif
+        exec 'match IncSearch /' . l:patt . g:searchString . '/'
+    endtry
+endfunction
+nnoremap <silent> n n:call HighlightCursorMatch()<CR>
+nnoremap <silent> N N:call HighlightCursorMatch()<CR>
+augroup betterSeachHighlighting
+    autocmd!
+    autocmd CmdlineEnter * if (index(['?', '/'], getcmdtype()) >= 0) | let g:searching = 1 | let g:firstCall = 1 | call timer_start(1, 'HighlightSearch') | endif
+    autocmd CmdlineLeave * let g:searching = 0
+augroup END
+]]
+-- }}}
 
 
 
