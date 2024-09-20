@@ -100,7 +100,7 @@ alias h='cd ~'
 alias root='cd /'
 
 # alias vimrc='nvim ~/.vimrc'
-alias vimrc='nvim ~/.config/nvim/init.lua'
+# alias vimrc='nvim ~/.config/nvim/init.lua'
 alias bashrc='nvim ~/.bashrc'
 alias reload='source ~/.bashrc'
 
