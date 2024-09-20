@@ -388,7 +388,6 @@ _G.get_mode = function()
     [''] = 'V-BLOCK',
     c = 'COMMAND',
     t = 'TERMINAL',
-    -- 你可以根据需要添加更多模式
   }
   return mode_map[vim.fn.mode()] or vim.fn.mode()
 end
@@ -398,11 +397,10 @@ local statusline = {
   '%{v:lua.get_mode()} ',    -- 显示当前模式
   ' %F',                     -- 文件的完整路径和文件名
   '%r',                      -- 只读标志
-  '%m',                      -- 修改标志
-  '%=',                      -- 分隔符，左边内容靠左，右边内容靠右
-  '[%{&filetype}]',          -- 文件类型
-  ' %2p%%',                  -- 文件百分比
-  ' %-2c:%3l '               -- 列号和行号
+  ' %m',                      -- 修改标志
+  '%=',                      -- 分隔符,左边内容靠左,右边内容靠右
+  '[%{&filetype}] ',         -- 文件类型
+  '%-2c %3l/%L (%2p%%)',     -- 列号,行号,总行数,百分比
 }
 vim.o.statusline = table.concat(statusline, '')
 -- }}}
