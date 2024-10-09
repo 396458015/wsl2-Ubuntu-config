@@ -106,6 +106,8 @@ alias reload='source ~/.bashrc'
 
 alias q='exit'
 
+alias delete_zone_files='find . -name "*:Zone.Identifier" -type f -delete' 
+
 alias gg='lazygit'
 alias fe='fastfetch --logo Ubuntu'
 alias vi='nvim'
