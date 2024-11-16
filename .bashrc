@@ -110,7 +110,7 @@ alias delete_zone_files='find . -name "*:Zone.Identifier" -type f -delete'
 
 alias gg='lazygit'
 alias fe='fastfetch --logo Ubuntu'
-alias vi='nvim'
+alias v='nvim'
 alias vim='nvim'
 
 # Add an "alert" alias for long running commands.  Use like so:
