@@ -51,6 +51,18 @@ neomap('n', '<Leader>sc', ':set spell!<CR>', { desc = 'Spell Word' })
 neomap('n', '<leader>sn', ']s', { desc = 'Next Wrong Word' })
 neomap('n', '<leader>sp', '[s', { desc = 'previou Wrong Word' })
 neomap('n', '<leader>sa', 'zg', key_opts_ns)
+-- 文件浏览
+neomap('n', '<leader>e', function()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+    if ft == "netrw" then
+      vim.cmd("bwipeout")
+      return
+    end
+  end
+  vim.cmd("Vexplore")
+end, key_opts_ns)
 -- 显示单词拼写建议
 neomap('n', '<leader>s?', 'z=', { desc = 'Word Candidate' })
 -- 查找并替换
