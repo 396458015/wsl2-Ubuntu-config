@@ -1,0 +1,141 @@
+{
+    "import-template:article": {
+        "prefix": "im-t",
+        "body": [
+            "#import \"@local/template:1.0.0\": *",
+            "#import \"@local/gb7714-bilingual:0.2.3\": init-gb7714, gb7714-bibliography, multicite",
+            "#show: init-gb7714.with(read(\"ref.bib\"), style: \"numeric\", version: \"2025\")",
+            "#show: template.with(",
+            "chapter-numbering: false,",
+            "section-symbol: false,",
+            "outline-enable: false,",
+            "",
+            "    title: \"标题\",",
+            "    authors: \"作者1, 作者2, 作者3\",",
+            "    date: \"XXXX-XX-XX\",",
+            "",
+            "    abstract: [摘要内容。],",
+            "    keywords: (",
+            "      \"关键词1\",",
+            "      \"关键词2\",",
+            "    ),",
+            ")",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            "#pagebreak()",
+            "#gb7714-bibliography()"
+        ],
+        "description": "import article template"
+    },
+    "Figure1": {
+        "prefix": "fig1",
+        "body": [
+            "#figure(",
+            "    image(\"images/test1.png\", width: 30%),",
+            "    caption: [图片名称]",
+            ")<i1>"
+        ],
+        "description": "Add a single image with caption"
+    },
+    "Figure2": {
+        "prefix": "fig2",
+        "body": [
+            "#figure(",
+            "    grid(",
+            "        columns: (1fr,)*2, row-gutter: 2mm, column-gutter: 1mm,",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        image(\"images/test2.png\", width: 4cm),",
+            "        \"(a) image 1\", \"(b) image 2\"",
+            "    ),",
+            "    caption: [图片名称]",
+            ")<i2>"
+        ],
+        "description": "Add 2 images"
+    },
+    "Figure3": {
+        "prefix": "fig3",
+        "body": [
+            "#figure(",
+            "    grid(",
+            "        columns: (1fr,)*3, row-gutter: 2mm, column-gutter: 1mm,",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        \"(a) image 1\", \"(b) image 2\", \"(c) image 3\",",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        image(\"images/test1.png\", width: 4cm),",
+            "        \"(d) image 4\", \"(e) image 5\", \"(f) image 6\"",
+            "    ),",
+            "    caption: [图片名称]",
+            ")<i3>"
+        ],
+        "description": "Add a grid of six images with captions"
+    },
+    "Tables": {
+        "prefix": "tab",
+        "body": [
+            "#figure(",
+            "    caption: [表格名称],",
+            "    table(",
+            "        // columns: 2,",
+            "        columns: (5cm, 5cm),",
+            "        align: center + horizon,",
+            "        stroke: none,",
+            "        toprule,",
+            "        table.header(",
+            "            [Name], [Made public]",
+            "        ),",
+            "        midrule,",
+            "        [Typst], [2023],",
+            "        [LaTeX], [1984],",
+            "        bottomrule",
+            "    )",
+            ")<t1>"
+        ],
+        "description": "Insert a formatted table with a caption"
+    },
+    "highlight": {
+        "prefix": "highlight",
+        "body": ["#highlight[${0: important}]"],
+        "description": "Add highlight"
+    },
+    "highlight full": {
+        "prefix": "highlight_full",
+        "body": [
+            "#highlight(",
+            "fill: blue,",
+            "stroke: fuchsia,",
+            "extent: 4pt,",
+            "radius: 5pt,",
+            "top-edge: \"ascender\",",
+            "bottom-edge: \"descender\",",
+            ")[${0: important}]"],
+        "description": "Add highlight with full options"
+    },
+    "lorem": {
+        "prefix": "lorem",
+        "body": ["#lorem(${0: num})"],
+        "description": "This function yields a Latin-like Lorem Ipsum blind text with the given number of words."
+    },
+    "bib": {
+        "prefix": "bib",
+        "body": [
+            "#pagebreak()",
+            "#gb7714-bibliography()"
+        ],
+        "description": "Insert bibliography"
+    },
+    "mc": {
+        "prefix": "mc",
+        "body": [
+            "#multicite[@${1:key1}, @${2:key2}]"
+        ],
+        "description": "Insert multicite"
+    }
+}

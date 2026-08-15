@@ -1,0 +1,31 @@
+{
+    "try/except" : {
+        "prefix" : "plot",
+        "body" : [
+            "plt.figure(num='figure(${1:num})')",
+            "plt.rc('font',family='Times New Roman')  #matplotlib 全局字体修改为Times New Roman",
+            "plt.plot(${2:x},${3:y},'r--',linewidth=1.0,label='label1') # rs--",
+            "# plt.plot(x, y, color='green', linestyle='dashed', linewidth = 3,",
+            "#          marker='o', markerfacecolor='blue', markersize=12,label='label2')",
+            "# plt.xlim(x1,x2)",
+            "# plt.ylim(y1,y2)",
+            "plt.rcParams.update({\"font.size\":14})  #set legend font size",
+            "plt.legend()",
+            "plt.xlabel('xlabel (°C)',fontsize=15)",
+            "plt.ylabel(r'ylabel ($W/mK$)',fontsize=15)  #字符前加一个 r 即可latex style",
+            "plt.xticks(fontsize=15,rotation=0)  #设置坐标刻度字体大小",
+            "plt.yticks(fontsize=15)",
+            "plt.grid(ls='-.')  #grid",
+            "# plt.show(block=False)  # do not block",
+            "plt.show()"
+      ],
+      "description": "plot x y"
+  },
+    "linspace" : {
+        "prefix" : "linspace",
+        "body" : [
+            "np.linspace(${1:x1},${2:x2},${3:n})"
+        ],
+        "description": "NONE"
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "copyright": {
+        "prefix": "c)",
+        "body": [
+            "Copyright (c) ${CURRENT_YEAR} ${0:Author}. All Rights Reserved."
+        ],
+        "description": "Snippet to put copyright"
+    },
+    "diso": {
+        "prefix": "diso",
+        "body": [
+            "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}T${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}"
+        ],
+        "description": "ISO date time stamp"
+    },
+    "date": {
+        "prefix": "date",
+        "body": ["<${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_DAY_NAME_SHORT}>"],
+        "description": "Put the date in <Y-m-D Day> format"
+    },
+    "time": {
+        "prefix": "time",
+        "body": ["<${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_DAY_NAME_SHORT} ${CURRENT_HOUR}:${CURRENT_MINUTE}>"],
+        "description": "Put full timestamp <Y-m-D Day H:M>"
+    },
+    "uuid": {
+        "prefix": "uuid",
+        "body": "${UUID}",
+        "description": "A Version 4 UUID"
+    },
+    "pi constant": {
+        "prefix": "pi",
+        "body": ["pi = 3.141592653589793"],
+        "description": "Insert Pi constant for Crunch"
+    },
+    "exp1 constant": {
+        "prefix": "exp1",
+        "body": ["exp(1) = 2.718281828459046"],
+        "description": "Insert exp(1) constant for Crunch"
+    }
+}

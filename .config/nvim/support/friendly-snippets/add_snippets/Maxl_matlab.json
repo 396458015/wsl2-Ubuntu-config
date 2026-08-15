@@ -1,0 +1,321 @@
+{
+    "close all;clear all;clc": {
+        "prefix": "cla",
+        "body": [
+            "close all;clear all;clc;"
+        ],
+        "description": "close all;clear all;clc;"
+    },
+    "plot/1-line": {
+        "prefix": "plot/1-line",
+        "body": [
+            "figure(${1:number})",
+            "plot(${2:x1},${3:y1},'r-','LineWidth',1.5);",
+            "h = legend( 'name1', 'Location','NE');",
+            "set(h,'Fontsize',16,'Fontname','Times New Roman'); % Fontsize and Font (legend)",
+            "set(gca,'FontName','Times New Roman','FontSize',16) % Fontsize and Font (XTick, YTick, xlabel and ylabel)",
+            "legend('boxoff');",
+            "xlabel('Temperature (\\circC)','Fontsize',18,'FontName','Times New Roman'); % Fontsize and Font (xlabel)",
+            "ylabel('Heat Flow (mW/mg)','Fontsize',18,'FontName','Times New Roman'); % Fontsize and Font (ylabel)",
+            "grid on",
+            "% xlim([150,450]);",
+            "% ylim([-0.8,0.5]);",
+            "box off",
+            "ax2 = axes('Position',get(gca,'Position'),'XAxisLocation','top','YAxisLocation','right','Color','none','XColor','k','YColor','k');",
+            "set(ax2,'YTick', []);",
+            "set(ax2,'XTick', []);",
+            "box on",
+            "%saveas(gcf,'savename.emf')",
+            "%print(gcf, fullfile(path, 'savename.png'), '-dpng', '-r1200');"
+        ],
+        "description": "Plot 1 line"
+    },
+    "plot/2-line": {
+        "prefix": "plot/2-line",
+        "body": [
+            "figure(${1:number});hold on;",
+            "plot(${2:x1},${3:y1},'r-','LineWidth',1.5);",
+            "plot(${4:x2},${5:y2},'b-','LineWidth',1.5);",
+            "h = legend(...",
+            "'${6:name1}',...",
+            "'${7:name2}',...",
+            "'Location','NE');",
+            "set(h,'Fontsize',16,'Fontname','Times New Roman'); % Fontsize and Font (legend)",
+            "set(gca,'FontName','Times New Roman','FontSize',16) % Fontsize and Font (XTick, YTick, xlabel and ylabel)",
+            "legend('boxoff');",
+            "xlabel('Temperature (\\circC)','Fontsize',18,'FontName','Times New Roman'); % Fontsize and Font (xlabel)",
+            "ylabel('Heat Flow (mW/mg)','Fontsize',18,'FontName','Times New Roman'); % Fontsize and Font (ylabel)",
+            "grid on",
+            "% xlim([150,450]);",
+            "% ylim([-0.8,0.5]);",
+            "box off",
+            "ax2 = axes('Position',get(gca,'Position'),'XAxisLocation','top','YAxisLocation','right','Color','none','XColor','k','YColor','k');",
+            "set(ax2,'YTick', []);",
+            "set(ax2,'XTick', []);",
+            "box on",
+            "%saveas(gcf,'savename.emf')",
+            "%print(gcf, fullfile(path, 'savename.png'), '-dpng', '-r1200');"
+        ],
+        "description": "Plot 2 lines"
+    },
+    "plot/line-scatter": {
+        "prefix": "plot/line-scatter",
+        "body": [
+            "figure(${1:number})",
+            "plot(${2:x1},${3:y1},'-k', 'LineWidth',1);hold on;",
+            "scatter(${4:x2},${5:y2},40,'MarkerEdgeColor','red','MarkerFaceColor','yellow','LineWidth',1.5)%40表示散点图的大小",
+            "h = legend(...",
+            "'${6:name_line}',...",
+            "'${7:name_scatter}',...",
+            "'Location','NE');",
+            "set(h,'Fontsize',12);",
+            "set(h,'Fontname','Times New Roman');",
+            "xlabel('Time (s)','Fontsize',12,'fontname','Times New Roman');",
+            "ylabel('Force (N)','Fontsize',12,'fontname','Times New Roman');",
+            "% ylim([70,105]);",
+            "% xlim([0,71]);",
+            "legend('boxoff');",
+            "grid on",
+            "box off",
+            "ax2 = axes('Position',get(gca,'Position'),'XAxisLocation','top','YAxisLocation','right','Color','none','XColor','k','YColor','k');",
+            "set(ax2,'YTick', []);",
+            "set(ax2,'XTick', []);",
+            "box on",
+            "%saveas(gcf,'name.emf')",
+            "%print(gcf, fullfile(path, 'savename.png'), '-dpng', '-r1200');"
+        ],
+        "description": "Plot line and scatter"
+    },
+    "plot/2y": {
+        "prefix": "plot/2y",
+        "body": [
+            "figure(${1:number})",
+            "[AX,H1,H2] = plotyy(${2:datax},${3:datay1},${4:datax},${5:datay2},'plot');",
+            "set(H1,'color','r','linestyle','-','color','k','LineWidth',1.5);",
+            "set(H2,'color','k','linestyle','--','color','r','LineWidth',1.5);",
+            "set(H1,'color','r','linestyle',':','Marker','o','MarkerSize',8,'MarkerEdgeColor','r','Markerfacecolor','r','LineWidth',1.5 );",
+            "set(H2,'color','k','linestyle',':','Marker','^','MarkerSize',8,'MarkerEdgeColor','k','Markerfacecolor','k', 'LineWidth',1.5 );",
+            "set(get(AX(1),'Ylabel'),'String','Crystallization temperature (\\circC)','fontsize',13,'fontname','Times New Roman');",
+            "set(get(AX(2),'Ylabel'),'String','Degree of crystallization (%)');",
+            "set(AX(2),'FontSize', 13,'fontname','Times New Roman'); % Change the right Axis's font size to 20",
+            "xlabel('Temperature (\\circC)','fontsize',13,'fontname','Times New Roman');",
+            "% set(AX(1),'xlim',[355,395],'xtick',360:10:390,'ylim',[330,350],'ytick',330:5:350,'Ycolor','k')  %设定Y轴1的颜色",
+            "% set(AX(2),'xlim',[355,395],'xtick',360:10:390,'ylim',[30,60],'ytick',30:10:60,'Ycolor','r')  %设定Y轴2的颜色",
+            "h = legend(...",
+            "'${6:name1}',...",
+            "'${7:name2}',...",
+            "'Location','NE');",
+            "set(h,'Fontsize',13);",
+            "set(h,'Fontname','Times New Roman');",
+            "set(gca,'Fontsize',13);",
+            "legend('boxoff');",
+            "grid on",
+            "%saveas(gcf,'name.emf')",
+            "%print(gcf, fullfile(path, 'savename.png'), '-dpng', '-r1200');"
+        ],
+        "description": "Double Y-axis curve"
+    },
+    "load/csv/xls": {
+        "prefix": "load/csv/xls",
+        "body": [
+            "${1:data} = xlsread('${2:dataname}.xls','A:C');"
+        ],
+        "description": "Load .csv or .xls data"
+    },
+    "load/txt": {
+        "prefix": "load/txt",
+        "body": [
+            "${1:data} = load('${2:dataname}.txt');"
+        ],
+        "description": "Load .txt data"
+    },
+    "inter/exp": {
+        "prefix": "inter/exp",
+        "body": [
+            "clear all;clc;close all;",
+            "A = xlsread('data.csv');",
+            "A_x = A(:,1);%时间",
+            "A_y = A(:,2);%应变",
+            "",
+            "%平顺数据",
+            "A_ys=smooth(A_y,25);",
+            "",
+            "delta  =  min(A_x):0.1:max(A_x);%插值后的新X轴数据",
+            "%采用X轴的间隔对y进行插值，采用'spline'三次样条插值",
+            "%共有四种插值方法：'nearest'是最邻近插值， 'linear'线性插值； 'spline'三次样条插值； 'pchip'立方插值．缺省时表示线性插值。",
+            "A_ys_new = interp1(A_x,A_ys,delta,'spline');%插值后的新y轴数据"
+        ],
+        "description": "采用应变片或DIC测试应变，解决应变、应力曲线时间间隔不一致的问题"
+    },
+	"if": {
+		"prefix": "if",
+		"body": [
+			"if ${1:condition}",
+			"\t$2",
+			"end"
+		],
+		"description": "if statement"
+	},
+	"if else": {
+		"prefix": "ifelse",
+		"body": [
+			"if ${1:condition}",
+			"\t$2",
+			"else",
+			"\t$3",
+			"end"
+		],
+		"description": "if else statement"
+	},
+	"if elseif": {
+		"prefix": "ifelif",
+		"body": [
+			"if ${1:condition}",
+			"\t$2",
+			"elseif ${3:condition}",
+			"\t$4",
+			"else",
+			"\t $5",
+			"end"
+		],
+		"description": "if elseif statement"
+	},
+	"else": {
+		"prefix": "else",
+		"body": [
+			"else",
+			"\t${1:body}"
+		],
+		"description": "else statement"
+	},
+	"elseif": {
+		"prefix": "elseif",
+		"body": [
+			"elseif ${1:condition}",
+			"\t${0:body}"
+		],
+		"description": "elseif statement"
+	},
+    "forij" : {
+        "prefix" : "forij",
+        "body" : [
+            "for i = ${1:1 : ${2:m}}",
+            "\tfor j = ${3:1 : ${4:n}}",
+            "\t\t$0",
+            "\tend",
+            "end"
+        ],
+        "description": "double for-loop"
+    },
+
+    "forijk" : {
+        "prefix" : "forijk",
+        "body" : [
+            "for i = ${1:1 : ${2:m}}",
+            "\tfor j = ${3:1 : ${4:n}}",
+            "\t\tfor k = ${5:1 : ${6:p}}",
+            "\t\t\t$0",
+            "\t\tend",
+            "\tend",
+            "end"
+        ],
+        "description": "triple for-loop"
+    },
+
+    "for1" : {
+        "prefix" : "for1",
+        "body" : [
+            "for i = 1 : length(${1:X})",
+            "\t${2:${1/.*/${0:/downcase}/}} = $1(i);",
+            "\t$0",
+            "end"
+        ],
+        "description": "for-loop over a vector"
+    },
+
+    "for2" : {
+        "prefix" : "for2",
+        "body" : [
+            "for i = 1 : size(${1:X},1)",
+            "\tfor j = 1 : size($1,2)",
+            "\t\t${2:${1/.*/${0:/downcase}/}} = $1(i,j);",
+            "\t\t$0",
+            "\tend",
+            "end"
+        ],
+        "description": "for-loop over a matrix"
+    },
+
+    "for3" : {
+        "prefix" : "for3",
+        "body" : [
+            "for i = 1 : size(${1:X},1)",
+            "\tfor j = 1 : size($1,2)",
+            "\t\tfor k = 1 : size($1,3)",
+            "\t\t\t${2:${1/.*/${0:/downcase}/}} = $1(i,j,k);",
+            "\t\t\t$0",
+            "\t\tend",
+            "\tend",
+            "end"
+        ],
+        "description": "for-loop over a 3D matrix"
+    },
+    "switch" : {
+        "prefix" : "switch",
+        "body" : [
+            "switch ${1:expression}",
+            "\tcase ${2:expression}",
+            "\t\t$0",
+            "\tcase ${3:expression}",
+            "\t\t",
+            "\totherwise",
+            "\t\t",
+            "end"
+        ],
+        "description": "switch statement"
+    },
+    "linspace" : {
+        "prefix" : "linspace",
+        "body" : [
+            "linspace(${1:x1},${2:x2},${3:n});"
+        ],
+        "description": "相邻点间距(x2-x1)/(n-1)"
+    },
+	"function": {
+		"prefix": "function",
+		"body": [
+			"function ${1:[${2:out1,out2}]} = ${3:myFun}(${4:in1,in2})",
+			"% ${3/(.*)/${1:/upcase}/} ${5:description}",
+			"%",
+			"% Syntax:",
+			"%\t$1 = $3($4)",
+			"%",
+			"% Inputs:",
+			"${4/\\s*(\\w+)\\s*,?\\s*/%\t$1 - \n/g}%",
+			"% Outputs:",
+			"${1/\\s*\\[?\\s*(\\w*)\\s*[,\\]]?\\s*/%\t$1 - \n/g}%",
+			"% Example:",
+			"%\t",
+			"% See also:",
+            "%\t",
+			"$0",
+			"end"
+		],
+		"description": "function declaration"
+    },
+	"e": {
+		"prefix": "e",
+		"body": "exp(${1:X})$0",
+		"description": "Exponential"
+	},
+	"saveEMF": {
+		"prefix": "saveEMF",
+		"body": "saveas(gcf,'${1:savename}.emf')",
+		"description": "Save IMAGE"
+	}
+}
+
+
+
+
+

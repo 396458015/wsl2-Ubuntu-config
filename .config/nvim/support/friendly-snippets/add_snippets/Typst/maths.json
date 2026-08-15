@@ -1,0 +1,104 @@
+{
+    "cases": {
+        "prefix": ["cases", "maths.cases"],
+        "body": [
+            "$ f(x, y) := cases(",
+            "  1 \"if\" (x dot y)/2 <= 0,",
+            "  2 \"if\" x \"is even\",",
+            "  3 \"if\" x in NN,",
+            "  4 \"else\",",
+            ") $"
+        ],
+        "description": [
+            "A case distinction.",
+            " ",
+            "Content across different branches can be aligned with the & symbol."
+        ]
+    },
+    "equation": {
+        "prefix": ["equation", "maths.equation"],
+        "body": [
+            "$ sum_(k=1)^n k = (n(n+1)) / 2 $"
+        ],
+        "description": [
+            "A mathematical equation.",
+            " ",
+            "Can be displayed inline with text or as a separate block."
+        ]
+    },
+    "frac": {
+        "prefix": ["frac", "maths.frac"],
+        "body": ["$ ((${0:x}+1)) / 2 = frac(a, b) $"],
+        "description": "A mathematical fraction."
+    },
+	"temp": {
+		"prefix": "temp",
+		"body": ["°C" ],
+		"description": "Temp"
+	},
+    "zimu-a": {
+        "prefix": "\\a",
+        "body": "alpha",
+        "description": "A mathematical fraction."
+    },
+    "zimu-b": {
+        "prefix": "\\b",
+        "body": "beta",
+        "description": "A mathematical fraction."
+    },
+    "zimu-e": {
+        "prefix": "\\e",
+        "body": "epsilon",
+        "description": "A mathematical fraction."
+    },
+    "zimu-d": {
+        "prefix": "\\d",
+        "body": "delta",
+        "description": "A mathematical fraction."
+    },
+    "zimu-e": {
+        "prefix": "\\e",
+        "body": "epsilon",
+        "description": "A mathematical fraction."
+    },
+    "zimu-g": {
+        "prefix": "\\g",
+        "body": "gamma",
+        "description": "A mathematical fraction."
+    },
+    "zimu-i": {
+        "prefix": "\\i",
+        "body": "infinity",
+        "description": "A mathematical fraction."
+    },
+    "zimu-l": {
+        "prefix": "\\l",
+        "body": "lambda",
+        "description": "A mathematical fraction."
+    },
+    "zimu-n": {
+        "prefix": "\\n",
+        "body": "nu",
+        "description": "A mathematical fraction."
+    },
+    "zimu-s": {
+        "prefix": "\\s",
+        "body": "sigma",
+        "description": "A mathematical fraction."
+    },
+    "zimu-t": {
+        "prefix": "\\t",
+        "body": "tau",
+        "description": "A mathematical fraction."
+    },
+    "zimu-p": {
+        "prefix": "\\p",
+        "body": "pi",
+        "description": "A mathematical fraction."
+    },
+    "zimu-o": {
+        "prefix": "\\o",
+        "body": "omega",
+        "description": "A mathematical fraction."
+    }
+}

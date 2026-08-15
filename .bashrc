@@ -153,3 +153,15 @@ function y() {
 bind '"\ef": "y\C-m"'
 . "$HOME/.cargo/env"
 export PATH="$HOME/.cargo/bin:$PATH"
+
+
+# WSL2 通过 Clash 代理上网（动态获取 Windows 主机IP）
+export WSL_HOST=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+export http_proxy="http://${WSL_HOST}:7890"
+export https_proxy="http://${WSL_HOST}:7890"
+export all_proxy="http://${WSL_HOST}:7890"
+export HTTP_PROXY="$http_proxy"
+export HTTPS_PROXY="$https_proxy"
+export ALL_PROXY="$all_proxy"
+
+

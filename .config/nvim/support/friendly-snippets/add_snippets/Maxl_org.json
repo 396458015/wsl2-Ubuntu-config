@@ -1,0 +1,133 @@
+{
+  "gpt-check": {
+    "description": "gpt-check",
+    "prefix": "gpt-check",
+    "body": [
+      "Check the following sentences for Syntax error, and list the revised sentences if any:"
+    ]
+  },
+  "gpt-trans": {
+    "description": "gpt-trans",
+    "prefix": "gpt-trans",
+    "body": [
+      "Translate this sentences to make them grammatically correct and more academic:"
+    ]
+  },
+  "gpt-rewrite": {
+    "description": "gpt-rewrite",
+    "prefix": "gpt-rewrite",
+    "body": [
+      "Rewrite the following sentences to make them grammatically correct, more academic, and more coherent:"
+    ]
+  },
+  "gpt-abb": {
+    "description": "gpt-abb",
+    "prefix": "gpt-abb",
+    "body": [
+      "To abbreviate this sentence, to make them grammatically correct and more academic:"
+    ]
+  },
+  "gpt-mer": {
+    "description": "gpt-mer",
+    "prefix": "gpt-mer",
+    "body": [
+      "Merge the following two sentences into one, and make them grammatically correct, more academic, and more coherent:"
+    ]
+  },
+  "gpt-chinese1": {
+    "description": "gpt-chinese1",
+    "prefix": "gpt-chinese1",
+    "body": [
+      "检查这段话有没有问题，符不符合逻辑自洽、学术写作要求，如果不符合改写下面的段落，使用中文："
+    ]
+  },
+  "gpt-time-check": {
+    "description": "gpt-time-check",
+    "prefix": "gpt-time-check",
+    "body": [
+      "From the point of view of tense, check this passage for mistakes, if any, please correct:"
+    ]
+  },
+  "gpt-time-present": {
+    "description": "gpt-time-present",
+    "prefix": "gpt-time-present",
+    "body": [
+      "Change the tense of the following paragraphs to the present simple tense,make them grammatically correct and more academic:"
+    ]
+  },
+  "gpt-time-past": {
+    "description": "gpt-time-past",
+    "prefix": "gpt-time-past",
+    "body": [
+      "Change the tense of the following paragraphs to the past simple tense,make them grammatically correct and more academic:"
+    ]
+  },
+  "todo": {
+    "prefix": [
+      "todo"
+    ],
+    "body": [
+      "* TODO $1",
+      "DEADLINE: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_DAY_NAME_SHORT} ${CURRENT_HOUR}:${CURRENT_MINUTE}>",
+      ""
+    ]
+  },
+  "scheduled": {
+    "prefix": [
+      "sched"
+    ],
+    "body": [
+      "SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_DAY_NAME_SHORT} ${CURRENT_HOUR}:${CURRENT_MINUTE}>"
+    ]
+  },
+  "deadline": {
+    "prefix": [
+      "dead"
+    ],
+    "body": [
+      "DEADLINE: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_DAY_NAME_SHORT} ${CURRENT_HOUR}:${CURRENT_MINUTE}>"
+    ]
+  },
+  "link": {
+    "prefix": [
+      "link"
+    ],
+    "body": [
+      "[[${1:${CLIPBOARD:path}}][${2:${TM_SELECTED_TEXT:description}}]]"
+    ]
+  },
+  "priority": {
+    "prefix": [
+      "#"
+    ],
+    "body": [
+      "[#${1:A}] "
+    ]
+  },
+  "meeting": {
+    "prefix": [
+      "meet"
+    ],
+    "body": [
+      "* MEET with $1",
+      "<${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_DAY_NAME_SHORT} ${CURRENT_HOUR}:${CURRENT_MINUTE}>",
+      ""
+    ]
+  },
+  "table": {
+    "prefix": [
+      "tbl"
+    ],
+    "body": [
+      "| $1 | $2 | $3 |",
+      "|------+------+------|",
+      "|    |    |    |",
+      "|    |    |    |"
+    ]
+  }
+}
+
+
+
+
+
