@@ -1,0 +1,124 @@
+[mgr]
+ratio         = [ 1, 4, 3 ]
+sort_by        = "mtime"
+sort_sensitive = true
+sort_reverse   = true
+sort_dir_first = false
+sort_translit  = false
+linemode       = "none"
+show_hidden    = true
+show_symlink   = true
+scrolloff      = 5
+mouse_events   = [ "click", "scroll", "drag" ]
+
+
+[preview]
+wrap            = "yes"
+tab_size        = 2
+max_width       = 600
+max_height      = 900
+cache_dir       = "$HOME/.cache/yazi"
+image_delay     = 30
+image_filter    = "triangle"
+image_quality   = 75
+ueberzug_scale  = 1
+ueberzug_offset = [ 0, 0, 0, 0 ]
+
+
+[opener]
+nvim = [
+	{ run = "nvim %s",    block = true, desc = "Neovim", for = "unix" },
+]
+open = [
+    { run = 'start "" %s1',    desc = "Open", for = "windows", orphan = true },
+]
+extract = [
+    { run = 'ouch d -y %*', desc = "Extract here with ouch", for = "windows" },
+]
+play = [
+	{ run = 'mpv "%1"', orphan = true, desc = "MPV", for = "windows" },
+]
+
+
+[open]
+rules = [
+	{ url = "*/", use = [ "open" ] },
+
+	{ mime = "text/*",  use = [ "nvim", "open" ] },
+	{ mime = "image/*", use = [ "open" ] },
+	{ mime = "video/*", use = [ "play" ] },
+	{ mime = "audio/*", use = [ "play" ] },
+	{ mime = "inode/x-empty", use = [ "nvim", "open" ] },
+
+	{ mime = "application/json", use = [ "nvim", "open" ] },
+	{ mime = "*/javascript",     use = [ "nvim", "open" ] },
+
+	{ mime = "application/zip",           use = [ "open", "extract" ] },
+	{ mime = "application/gzip",          use = [ "open", "extract" ] },
+	{ mime = "application/tar",           use = [ "open", "extract" ] },
+	{ mime = "application/bzip",          use = [ "open", "extract" ] },
+	{ mime = "application/bzip2",         use = [ "open", "extract" ] },
+	{ mime = "application/7z-compressed", use = [ "open", "extract" ] },
+	{ mime = "application/rar",           use = [ "open", "extract" ] },
+    { mime = "application/xz",            use = [ "open", "extract" ] },
+
+    { url = "*.docx", use = [ "open" ] },
+    { url = "*.doc",  use = [ "open" ] },
+    { url = "*.xlsx", use = [ "open" ] },
+    { url = "*.xls",  use = [ "open" ] },
+    { url = "*.pptx", use = [ "open" ] },
+    { url = "*.ppt",  use = [ "open" ] },
+    { url = "*.pdf",  use = [ "open" ] },
+    { url = "*.caj",  use = [ "open" ] },
+    { url = "*.opju", use = [ "open" ] },
+    { url = "*.rmvb", use = [ "play" ] },
+    { url = "*.hm",   use = [ "open" ] },
+    { url = "*.cae",  use = [ "open" ] },
+    { url = "*.exe",  use = [ "open" ] },
+
+	# Fallback
+	{ url = "*", use = [ "nvim", "open" ] },
+]
+
+
+[tasks]
+file_workers     = 3
+plugin_workers   = 5
+fetch_workers    = 5
+preload_workers  = 2
+process_workers  = 5
+bizarre_retry    = 3
+image_alloc      = 536870912  # 512MB
+image_bound      = [ 10000, 10000 ]
+suppress_preload = false
+
+
+[plugin]
+prepend_fetchers = [
+  # plugin:mine-ext.yazi
+  { id = "mime", url = "local://*", run = "mime-ext.local", prio = "high", group = "mime" },
+  { id = "mime", url = "remote://*", run = "mime-ext.remote", prio = "high", group = "mime" },
+  # plugin:git.yazi
+  { id = "git", url = "*",  run = "git", prio = "normal", group = "git" },
+  { id = "git", url = "*/", run = "git", prio = "normal", group = "git" },
+]
+
+prepend_previewers = [
+# plugin:ouch.yazi
+  { mime = "application/*zip",            run = "ouch" },
+  { mime = "application/x-tar",           run = "ouch" },
+  { mime = "application/x-bzip2",         run = "ouch" },
+  { mime = "application/x-7z-compressed", run = "ouch" },
+  { mime = "application/x-rar",           run = "ouch" },
+  { mime = "application/x-xz",            run = "ouch" },
+  { mime = "application/xz",              run = "ouch" },
+# preview-typst.yazi
+  { url = '*.typ', run = 'preview-typst' },
+]
+
+prepend_preloaders = [
+# preview-typst.yazi
+  { url = '*.typ', run = 'preview-typst' },
+]
+
+
