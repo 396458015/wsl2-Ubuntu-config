@@ -101,8 +101,8 @@ alias root='cd /'
 
 # alias vimrc='nvim ~/.vimrc'
 # alias vimrc='nvim ~/.config/nvim/init.lua'
-alias bashrc='nvim ~/.bashrc'
-alias reload='source ~/.bashrc'
+alias ba='nvim ~/.bashrc'
+alias rl='source ~/.bashrc'
 
 alias q='exit'
 
@@ -151,3 +151,5 @@ function y() {
 }
 # 绑定 Alt+f 快捷键
 bind '"\ef": "y\C-m"'
+. "$HOME/.cargo/env"
+export PATH="$HOME/.cargo/bin:$PATH"
