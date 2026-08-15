@@ -109,7 +109,7 @@ alias q='exit'
 alias delete_zone_files='find . -name "*:Zone.Identifier" -type f -delete' 
 
 alias gg='lazygit'
-alias fe='fastfetch --logo Ubuntu'
+alias ff='fastfetch --logo Ubuntu'
 alias v='nvim'
 alias vim='nvim'
 
@@ -139,3 +139,15 @@ fi
 
 # Starship prompt
 eval "$(starship init bash)"
+
+# Yazi
+function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+# 绑定 Alt+f 快捷键
+bind '"\ef": "y\C-m"'
