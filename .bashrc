@@ -2,57 +2,47 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# ============================================================
+# Bash 基础设置
+# ============================================================
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-      *) return;;
+      *) return ;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+# History
 HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
 shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# Automatically update terminal size
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
+# Lesspipe
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
+# ============================================================
+# Debian / Ubuntu 默认 Prompt 设置
+# ============================================================
+
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    xterm-color|*-256color)
+        color_prompt=yes
+        ;;
 esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -63,100 +53,111 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
+# Set terminal title
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
 esac
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+# ============================================================
+# 颜色支持
+# ============================================================
 
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors \
+        && eval "$(dircolors -b ~/.dircolors)" \
+        || eval "$(dircolors -b)"
+
+    alias ls='ls --color=auto'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# ============================================================
+# Alias
+# ============================================================
 
-# some more ls aliases
+# ls
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias p="pwd"
+# 路径
+alias p='pwd'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias h='cd ~'
 alias root='cd /'
 
-# alias vimrc='nvim ~/.vimrc'
-# alias vimrc='nvim ~/.config/nvim/init.lua'
+# Bash
 alias ba='nvim ~/.bashrc'
 alias rl='source ~/.bashrc'
 
-alias q='exit'
-
-alias delete_zone_files='find . -name "*:Zone.Identifier" -type f -delete' 
-
-alias gg='lazygit'
-alias ff='fastfetch --logo Ubuntu'
+# Neovim
 alias v='nvim'
 alias vim='nvim'
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# Git / Lazygit
+alias gg='lazygit'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+# Fastfetch
+alias ff='fastfetch --logo Ubuntu'
 
+# Shell
+alias q='exit'
+
+# 删除 Windows Zone.Identifier 文件
+alias delete_zone_files='find . -name "*:Zone.Identifier" -type f -delete'
+
+# Long-running command alert
+alias alert='notify-send --urgency=low \
+-i "$([ $? = 0 ] && echo terminal || echo error)" \
+"$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Optional aliases
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+# ============================================================
+# Bash Completion
+# ============================================================
+
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
-# Starship prompt
-eval "$(starship init bash)"
+# ============================================================
+# Cargo / Rust
+# ============================================================
 
-# Yazi
-function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-    yazi "$@" --cwd-file="$tmp"
-    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        cd -- "$cwd"
-    fi
-    rm -f -- "$tmp"
-}
-# 绑定 Alt+f 快捷键
-bind '"\ef": "y\C-m"'
 . "$HOME/.cargo/env"
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# ============================================================
+# NVM / Node.js
+# 用于管理和切换不同版本的 Node.js，并启用 Bash 命令自动补全
+# ============================================================
 
-# WSL2 通过 Clash 代理上网（动态获取 Windows 主机IP）
-export WSL_HOST=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \
+    . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \
+    . "$NVM_DIR/bash_completion"
+
+# ============================================================
+# WSL2 Clash 代理
+# 动态获取 Windows 主机 IP
+# ============================================================
+
+export WSL_HOST=$(awk '/nameserver/ {print $2; exit}' /etc/resolv.conf)
 export http_proxy="http://${WSL_HOST}:7890"
 export https_proxy="http://${WSL_HOST}:7890"
 export all_proxy="http://${WSL_HOST}:7890"
@@ -165,13 +166,39 @@ export HTTPS_PROXY="$https_proxy"
 export ALL_PROXY="$all_proxy"
 
 # ============================================================
-# NVM（Node Version Manager）
-# 用于管理和切换不同版本的 Node.js，并启用 Bash 命令自动补全
+# Matplotlib
+# 避免在 ~/.config 下创建 matplotlib 目录
 # ============================================================
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export MPLCONFIGDIR="$HOME/.cache/matplotlib"
 
+# ============================================================
+# Yazi
+# ============================================================
+
+function y() {
+    local tmp
+    local cwd
+    tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+
+    if cwd="$(cat -- "$tmp")" \
+        && [ -n "$cwd" ] \
+        && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+
+    rm -f -- "$tmp"
+}
+
+# Alt+F 打开 Yazi
+bind -x '"\ef": y'
+
+# ============================================================
+# Starship
+# 放在最后初始化 Prompt
+# ============================================================
+
+eval "$(starship init bash)"
 
 
