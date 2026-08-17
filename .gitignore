@@ -1,0 +1,36 @@
+# 默认全部忽略
+*
+
+# .config 目录本身允许进入
+!.config/
+
+# starship
+!.config/starship.toml
+
+# lazygit
+!.config/lazygit/
+!.config/lazygit/**
+.config/lazygit/state.yml
+
+# yazi
+!.config/yazi/
+!.config/yazi/**
+
+# nvim
+!.config/nvim/
+!.config/nvim/**
+
+.config/nvim/lazy-lock.json
+.config/nvim/support/.cache
+.config/nvim/support/Org
+
+# nvim-withoutPlugin
+!.config/nvim-withoutPlugin-0.7.2/
+!.config/nvim-withoutPlugin-0.7.2/**
+
+# 其他
+!.vimrc
+!.bashrc
+!README.md
+!.tmux.conf
+!.gitignore

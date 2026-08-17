@@ -153,7 +153,8 @@ hovered = { underline = true }
 
 [which]
 cols            = 3
-mask            = { bg = "#2c2b42" }  # Frappe
+border          = { fg = "#8b949e" }
+mask            = { bg = "reset" }  # Frappe
 cand            = { fg = "#9cdcfe" }  # Frappe
 rest            = { fg = "darkgray" }
 desc            = { fg = "#ae6485" }

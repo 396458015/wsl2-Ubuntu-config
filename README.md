@@ -107,10 +107,21 @@ nvim --version
 
 检查当前版本和最新版：
 
-
 ```bash
 echo "当前版本: $(nvim --version | head -n 1)"
 echo "最新版本: v$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep -Po '"tag_name": "v\K[^"]+')"
+```
+
+也可以使用第 13 节中的脚本：
+
+```bash
+check-nvim.sh
+```
+
+升级 Neovim：
+
+```bash
+update-nvim.sh
 ```
 
 ---
@@ -243,7 +254,6 @@ Mason 安装部分基于 Node.js 的 LSP，例如 `pyright`，需要 Node.js 和
 推荐使用 `nvm` 安装和管理 Node.js。
 
 ### 3.7.1 安装 nvm
-
 
 如需安装更新版本，请先查看 nvm 最新 Release。
 
@@ -501,9 +511,7 @@ which lazygit
 
 ## 8.2 升级
 
-
 升级时重新执行安装的全部命令即可。
-
 
 ---
 
@@ -555,6 +563,12 @@ bind -x '"\ef": y'
 sudo apt update
 
 sudo apt install --only-upgrade yazi
+```
+
+也可以使用第 13 节中的脚本：
+
+```bash
+update-yazi.sh
 ```
 
 ---
@@ -641,7 +655,175 @@ latexmk -v
 
 ---
 
-# 13. 常用配置文件
+# 13. Shell 脚本
+
+为了方便检查和升级软件，将常用维护脚本统一放在：
+
+```text
+~/.config/sh/
+```
+
+当前脚本：
+
+```text
+~/.config/sh/check-nvim.sh
+~/.config/sh/update-nvim.sh
+~/.config/sh/update-yazi.sh
+```
+
+## 13.1 创建脚本目录
+
+```bash
+mkdir -p ~/.config/sh
+```
+
+将 `.sh` 文件放入该目录。
+
+## 13.2 添加执行权限
+
+第一次添加脚本后，需要给脚本添加可执行权限：
+
+```bash
+chmod +x ~/.config/sh/*.sh
+```
+
+`chmod +x` 通常只需要执行一次。
+
+检查权限：
+
+```bash
+ls -l ~/.config/sh/
+```
+
+如果看到类似：
+
+```text
+-rwxr-xr-x
+```
+
+说明脚本已经具有执行权限。
+
+## 13.3 将脚本目录加入 PATH
+
+在 `~/.bashrc` 中加入：
+
+```bash
+# Shell scripts
+export PATH="$HOME/.config/sh:$PATH"
+```
+
+重新加载：
+
+```bash
+source ~/.bashrc
+```
+
+检查：
+
+```bash
+echo "$PATH" | tr ':' '\n' | grep "$HOME/.config/sh"
+```
+
+加入 PATH 后，可以在任意目录直接输入脚本名执行，不需要输入完整路径。
+
+## 13.4 Neovim 版本检查脚本
+
+脚本：
+
+```text
+~/.config/sh/check-nvim.sh
+```
+
+使用：
+
+```bash
+check-nvim.sh
+```
+
+用于显示：
+
+- 当前安装的 Neovim 版本
+- GitHub 上最新的 Neovim Release 版本
+
+## 13.5 Neovim 升级脚本
+
+脚本：
+
+```text
+~/.config/sh/update-nvim.sh
+```
+
+使用：
+
+```bash
+update-nvim.sh
+```
+
+脚本会自动：
+
+1. 下载最新版 Neovim。
+2. 删除旧的 `/opt/nvim-linux-x86_64`。
+3. 解压新版 Neovim 到 `/opt`。
+4. 更新 `/usr/local/bin/nvim` 软链接。
+5. 删除临时下载文件。
+6. 显示升级后的 Neovim 版本。
+
+## 13.6 Yazi 升级脚本
+
+脚本：
+
+```text
+~/.config/sh/update-yazi.sh
+```
+
+使用：
+
+```bash
+update-yazi.sh
+```
+
+脚本会执行：
+
+```bash
+sudo apt update
+
+sudo apt install --only-upgrade yazi -y
+```
+
+最后显示当前 Yazi 版本。
+
+## 13.7 脚本基本格式
+
+Bash 脚本通常以：
+
+```bash
+#!/usr/bin/env bash
+```
+
+开头。
+
+对于安装、升级、删除、复制等会修改系统状态的脚本，可以加入：
+
+```bash
+set -e
+```
+
+这样当某一步执行失败时，脚本会立即停止，避免继续执行后续操作。
+
+例如：
+
+```bash
+#!/usr/bin/env bash
+set -e
+
+sudo apt update
+
+sudo apt install --only-upgrade yazi -y
+```
+
+---
+
+# 14. 常用配置文件
 
 ```text
 ~/.bashrc
@@ -655,11 +837,13 @@ latexmk -v
 ~/.config/yazi/
 
 ~/.config/nvim/init.lua
+
+~/.config/sh/
 ```
 
 ---
 
-# 14. 常用升级命令
+# 15. 常用升级命令
 
 Ubuntu 软件：
 
@@ -677,16 +861,26 @@ sudo apt update
 sudo apt install --only-upgrade git
 ```
 
-Neovim 升级：
+Neovim：
 
-1 检查 Neovim 版本是否更新：
+检查版本：
+
+```bash
+check-nvim.sh
+```
+
+升级：
+
+```bash
+update-nvim.sh
+```
+
+也可以手动执行：
 
 ```bash
 echo "当前版本: $(nvim --version | head -n 1)"
 echo "最新版本: v$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep -Po '"tag_name": "v\K[^"]+')"
 ```
-
-2 更新 Neovim 版本（无需卸载）:
 
 ```bash
 cd /tmp
@@ -726,6 +920,12 @@ lazygit --version
 ```
 
 Yazi 升级：
+
+```bash
+update-yazi.sh
+```
+
+也可以手动执行：
 
 ```bash
 sudo apt update
@@ -782,5 +982,3 @@ Starship 升级：
 ```bash
 curl -sS https://starship.rs/install.sh | sh
 ```
-
-

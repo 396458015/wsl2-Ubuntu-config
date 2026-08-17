@@ -2579,6 +2579,10 @@ end
 -- folded color
 vim.api.nvim_set_hl(0, "Folded", { fg = "#c9a0a9", bg = "#403940", bold = true, italic = true })
 
+-- blink border
+vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = "#8b949e", })
+vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { fg = "#8b949e", })
+
 -- cmp color
 local fgdark = "#2E3440"
 vim.api.nvim_set_hl(0, "Pmenu",    { fg = "#5b678f", bg = nil}) -- cmp documentation font color
