@@ -261,9 +261,7 @@ source ~/.bashrc
 
 ```bash
 export NVM_DIR="$HOME/.nvm"
-
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 ```
 
@@ -686,7 +684,6 @@ Neovim 升级：
 ```bash
 echo "当前版本: $(nvim --version | head -n 1)"
 echo "最新版本: v$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep -Po '"tag_name": "v\K[^"]+')"
-
 ```
 
 2 更新 Neovim 版本（无需卸载）:
