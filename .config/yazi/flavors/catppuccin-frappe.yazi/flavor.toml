@@ -216,7 +216,7 @@ icon_error = ""
 [git]
 unknown   = { fg = "#ec613f" }
 modified  = { fg = "#ec613f" }
-added     = { fg = "#ec613f" }
+added     = { fg = "#98c379" }
 untracked = { fg = "#FFD700" }
 ignored   = { fg = "#ae96ee" }
 deleted   = { fg = "#ec613f" }

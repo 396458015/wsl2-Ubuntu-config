@@ -273,7 +273,6 @@ vim.opt.tabstop = 4  -- 设置tab键的宽度
 vim.opt.termguicolors = true
 -- vim.opt.ttimeoutlen = 0  --wenti
 vim.opt.breakindent = true
-vim.opt.undofile = true
 vim.opt.timeout = true
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
@@ -290,6 +289,12 @@ vim.opt.winborder = 'rounded'
 vim.opt.foldcolumn = "2"
 vim.opt.splitkeep = "screen"
 vim.opt.shortmess:append({ C = true })
+vim.opt.undofile = true
+if vim.fn.has("unix") == 1 then
+    vim.opt.undodir = vim.fn.expand("~/.config/nvim/support/.cache/undodir//")
+else
+    vim.opt.undodir = "D:/Dotfiles/nvim/nvim/support/.cache/undodir//"
+end
 
 -- Windows or WSL2: Requires equalsraf/win32yank.  try: choco install win32yank
 vim.g.clipboard = {
@@ -869,8 +874,8 @@ require("lazy").setup({
     vim.g.mkdp_auto_close = 0
     --设置预览代码高亮(绝对路径)
     if vim.fn.has("unix") == 1 then
-        vim.g.mkdp_markdown_css = "~/.config/nvim/support/github-markdown.css"
-        vim.g.mkdp_highlight_css = "~/.config/nvim/support/markdown.css"
+        vim.g.mkdp_markdown_css = vim.fn.expand("~/.config/nvim/support/github-markdown.css")
+        vim.g.mkdp_highlight_css = vim.fn.expand("~/.config/nvim/support/markdown.css")
     else
         vim.g.mkdp_markdown_css = "D:/Dotfiles/nvim/nvim/support/github-markdown.css"
         vim.g.mkdp_highlight_css = "D:/Dotfiles/nvim/nvim/support/markdown.css"
@@ -1470,9 +1475,9 @@ require("lazy").setup({
            index = {
 			 ["!"] = "", -- ignored
 			 ["?"] = "", -- untracked
-			 -- ["A"] = "", -- added
+			 ["A"] = "", -- added
 			 -- ["C"] = "", -- copied
-			 -- ["D"] = "", -- deleted
+			 ["D"] = "", -- deleted
 			 ["M"] = "", -- modified
 			 -- ["R"] = "", -- renamed
 			 -- ["T"] = "", -- type changed
@@ -1480,12 +1485,12 @@ require("lazy").setup({
 			 [" "] = "", -- clean
            },
            working_tree = {
-			 ["!"] = "󰘓", -- ignored
-			 ["?"] = "", -- untracked
-			 -- ["A"] = "", -- added
+			 ["!"] = ".", --󰘓 ignored
+			 ["?"] = "?", -- untracked
+			 ["A"] = "A", -- added
 			 -- ["C"] = "○", -- copied
-			 -- ["D"] = "○", -- deleted
-			 ["M"] = "", -- modified
+			 ["D"] = "D", --○ deleted
+			 ["M"] = "M", -- modified
 			 -- ["R"] = "→", -- renamed
 			 -- ["T"] = "○", -- type changed
 			 -- ["U"] = "○", -- unmerged
@@ -1494,8 +1499,8 @@ require("lazy").setup({
          },
     })
     vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeUnmodified", { fg = "#6cc749" })
-    vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeIgnored", { fg = "#7f848e" })
-    vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeUntracked", { fg = "#e5c07b" })
+    vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeIgnored", { fg = "#ae96ee" })
+    vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeUntracked", { fg = "#FFD700" })
     vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeAdded", { fg = "#98c379" })
     vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeModified", { fg = "#ec613f" })
     vim.api.nvim_set_hl(0, "OilGitStatusWorkingTreeRenamed", { fg = "#61afef" })
@@ -2053,9 +2058,13 @@ require("lazy").setup({
         { "L3MON4D3/LuaSnip",
             config = function()
                 if vim.fn.has("unix") == 1 then
-                require("luasnip/loaders/from_vscode").lazy_load({ paths = {"~/.config/nvim/support/friendly-snippets"}})
+                    require("luasnip/loaders/from_vscode").lazy_load({
+                        paths = {
+                            vim.fn.expand("~/.config/nvim/support/friendly-snippets")
+                        }
+                    })
                 else
-                require("luasnip/loaders/from_vscode").lazy_load({ paths = {"D:/Dotfiles/nvim/nvim/support/friendly-snippets"}})
+                    require("luasnip/loaders/from_vscode").lazy_load({ paths = {"D:/Dotfiles/nvim/nvim/support/friendly-snippets"}})
                 end
             end,
             init = function()
@@ -2092,11 +2101,11 @@ require("lazy").setup({
           config = function()
               local dic = {}
               if vim.fn.has("unix") == 1 then
-                  dic["*"] = "~/.config/nvim/support/Directionary-8813.dic"
-                  -- ["*"] = { "~/.config/nvim/support/Directionary-69903.dic" },
+                  dic["*"] = vim.fn.expand("~/.config/nvim/support/Directionary-8813.dic")
+                  -- dic["*"] = vim.fn.expand("~/.config/nvim/support/Directionary-69903.dic")
               else
                   dic["*"] = "D:/Dotfiles/nvim/nvim/support/Directionary-8813.dic"
-                  -- ["*"] = { "D:/Dotfiles/nvim/nvim/support/Directionary-69903.dic" },
+                  -- dic["*"] = "D:/Dotfiles/nvim/nvim/support/Directionary-69903.dic"
               end
               require("cmp_dictionary").setup({
                   dic = dic,
@@ -2506,7 +2515,7 @@ require("lazy").setup({
                 -- { plugin = "neo-tree.nvim",           icon = "󰙅", color = "orange" },
                 { plugin = "oil.nvim",                icon = "󰙅", color = "orange" },
                 { plugin = "vim-interestingwords",    icon = "", color = "red" },
-                { plugin = "undotree",                icon = "", color = "red" },
+                -- { plugin = "undotree",                icon = "", color = "red" },
                 { plugin = "cellular-automaton.nvim", icon = "", color = "red" },
             },
         },

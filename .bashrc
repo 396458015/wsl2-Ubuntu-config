@@ -15,8 +15,8 @@ esac
 # History
 HISTCONTROL=ignoreboth
 shopt -s histappend
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # Automatically update terminal size
 shopt -s checkwinsize
