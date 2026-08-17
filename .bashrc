@@ -92,7 +92,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias .="pwd"
+alias p="pwd"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -163,5 +163,15 @@ export all_proxy="http://${WSL_HOST}:7890"
 export HTTP_PROXY="$http_proxy"
 export HTTPS_PROXY="$https_proxy"
 export ALL_PROXY="$all_proxy"
+
+# ============================================================
+# NVM（Node Version Manager）
+# 用于管理和切换不同版本的 Node.js，并启用 Bash 命令自动补全
+# ============================================================
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 
 
