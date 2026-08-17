@@ -815,48 +815,47 @@ require("lazy").setup({
         neomap("n","<leader>tj",":FloatermNext<CR>", { desc = 'Next Term' } )
         neomap("n","<leader>tk",":FloatermPrev<CR>", { desc = 'Prev Term' } )
 
+
         vim.cmd[[
         augroup Compiler_code
         au!
-        au FileType floaterm nnoremap <buffer> <Esc> :q<CR>
-        " -- Python --
-        au FileType python nnoremap <silent><C-CR> :FloatermNew --width=0.8 --height=1.0 py "%:p"<CR>
-        " au FileType python nnoremap <C-g> :FloatermNew py "%:p"<CR>
-        au FileType python noremap! <C-CR>  <Esc>:FloatermToggle<CR>
-        " au FileType python noremap! <C-g>  <Esc>:FloatermToggle<CR>
-        " au FileType python tnoremap <C-CR>  <C-\><C-n>:FloatermToggle<CR>
-        " -- Python REPL --
-        nnoremap <leader>tp :FloatermNew --width=0.5 --wintype=vsplit --name=repl --position=rightbelow ipython<CR>
-        au FileType python nnoremap <leader>w :FloatermSend<CR>
-        au FileType python vnoremap <leader>w :FloatermSend<CR>
-        " -- Matlab --
-        au FileType matlab nnoremap <silent><C-CR> :! matlab -nosplash -nodesktop -r %:r<CR><CR>
-        " au FileType matlab nnoremap <silent><C-g> :! matlab -nosplash -nodesktop -r %:r<CR><CR>
-        " TERMINAL运行matlab代码,以'test.m'代码为例 'matlab -nosplash -nodesktop -r test'
-        " -- Fortran --
-        au FileType fortran nnoremap <silent><C-CR> :FloatermNew<CR>compilervars.bat intel64<CR>ifort<Space>
-        " au FileType fortran nnoremap <C-g> :FloatermNew<CR>compilervars.bat intel64<CR>ifort<Space>
-        " -- Typst --
-        " highligth file 'D:\Program Files\Neovim\share\nvim\runtime\syntax\typst.vim'
-        au BufRead,BufNewFile *.typ setlocal filetype=typst
-        au FileType typst nnoremap <silent><C-CR> :FloatermNew --height=1.0 typst watch %:p<CR>
-        " au FileType typst nnoremap <C-g> :FloatermNew --height=1.0 typst watch %:p<CR>
+        ]]
 
-        " au FileType typst command! TypstPDF execute "FloatermNew! sumatrapdf %:p<C-h><C-h><C-h>pdf<CR>"
-        au FileType typst nnoremap <silent> <M-v> :call jobstart(['sumatrapdf', expand('%:r') . '.pdf'], {'detach': v:true})<CR>
+        vim.cmd([[au FileType floaterm nnoremap <buffer> <Esc> :q<CR>]])
 
+        -- Python
+        if vim.fn.has("unix") == 1 then
+            vim.cmd([[au FileType python nnoremap <silent><C-CR> :FloatermNew --width=0.8 --height=1.0 python3 "%:p"<CR>]])
+        else
+            vim.cmd([[au FileType python nnoremap <silent><C-CR> :FloatermNew --width=0.8 --height=1.0 py "%:p"<CR>]])
+        end
+        vim.cmd([[au FileType python noremap! <C-CR>  <Esc>:FloatermToggle<CR>]])
+
+        -- Python REPL
+        vim.cmd([[nnoremap <leader>tp :FloatermNew --width=0.5 --wintype=vsplit --name=repl --position=rightbelow ipython<CR>]])
+        vim.cmd([[au FileType python nnoremap <leader>w :FloatermSend<CR>]])
+        vim.cmd([[au FileType python vnoremap <leader>w :FloatermSend<CR>]])
+
+        -- Matlab
+        vim.cmd([[au FileType matlab nnoremap <silent><C-CR> :! matlab -nosplash -nodesktop -r %:r<CR><CR>]])
+
+        -- Fortran
+        vim.cmd([[au FileType fortran nnoremap <silent><C-CR> :FloatermNew<CR>compilervars.bat intel64<CR>ifort<Space>]])
+
+        -- Typst
+        vim.cmd([[au BufRead,BufNewFile *.typ setlocal filetype=typst]])
+        vim.cmd([[au FileType typst nnoremap <silent><C-CR> :FloatermNew --height=1.0 typst watch %:p<CR>]])
+        vim.cmd([[au FileType typst nnoremap <silent> <M-v> :call jobstart(['sumatrapdf', expand('%:r') . '.pdf'], {'detach': v:true})<CR>]])
+
+        vim.cmd[[
         augroup END
-        " Git
+        ]]
+
+        -- Git commands(这些原本在 augroup 外面,保持独立)
+        vim.cmd[[
         command! Push execute "FloatermNew!git add init.lua<CR>git commit --allow-empty-message -m \"\"<CR>git push<CR>"
         command! Pull execute "FloatermNew!git fetch --all<CR>git reset --hard origin/main<CR>"
         command! Gitlog execute "FloatermNew!git log --all --oneline --graph<CR>"
-        " Administrator CMD mode
-        nnoremap  <leader>ta  :FloatermNew<CR>runas /user:ThinkPad\Administrator cmd<CR>1234<CR>
-        " nnoremap  <leader>ta  :FloatermNew<CR>runas /user:administrator cmd<CR>1234<CR>
-        " 'runas /user:administrator cmd' 进入管理员CMD的前提是开启管理员账号
-        " 开启管理员账号: net user administrator /active:yes
-        " 关闭管理员账号: net user administrator /active:no
-        " 设置管理员密码(1234): net user administrator 1234
         ]]
     end,
   },
@@ -1750,7 +1749,7 @@ require("lazy").setup({
     end,
     init = function()
         vim.cmd([[au FileType org setlocal nofoldenable]])
-    
+
         if vim.fn.has("unix") == 1 then
             neomap("n", "<leader>od", ":Oil ~/.config/nvim/support/Org/<CR>", { desc = 'Org [D]irectories' })
         else
@@ -1822,186 +1821,226 @@ require("lazy").setup({
 -- {{{ neovim/nvim-lspconfig
 -- from "nvim-lua/kickstart.nvim"
   {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-        { 'saghen/blink.cmp' },
-        {
-          "mason-org/mason.nvim",
-          build = ":MasonUpdate",
-          config = function()
-          require("mason").setup()
-          end,
-        },
-        -- { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-        { "mason-org/mason-lspconfig.nvim" },
-    },
-    config = function()
-      vim.api.nvim_create_autocmd('LspAttach', {
-          group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
+      "neovim/nvim-lspconfig",
+      event = { "BufReadPre", "BufNewFile" },
 
-          callback = function(event)
-              local map = function(mode, keys, func, desc)
-                  vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-              end
-
-              map('n', 'gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-              -- map('n', 'gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-              map('n', 'gD', vim.lsp.buf.type_definition, '[G]oto [D]eclaration')
-              map('n', 'K', vim.lsp.buf.hover, 'Hover Documentation')
-              map('n', 'gh', vim.lsp.buf.signature_help, '[G]oto signature [H]elp')
-              map('n', 'gr', vim.lsp.buf.references, '[G]oto [R]eferences')
-              map('n', 'gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-              map('n', '<leader>lr', vim.lsp.buf.rename, '[R]ename')
-              map('n', '<leader>la', vim.lsp.buf.code_action, 'Code [A]ction')
-              map('n', '<leader>lf', vim.lsp.buf.format, '[F]ormat')
-              -- Diagnostic keymaps
-              map('n', '[d', vim.diagnostic.goto_prev, 'Previous [D]iagnostic')
-              map('n', ']d', vim.diagnostic.goto_next, 'Next [D]iagnostic ')
-              map('n', '<leader>lq', vim.diagnostic.setqflist, 'Diagnostic [Q]uickfix')
-          end,
-      })
-
-      vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
-          config = config or {}
-          config.border = "single"
-          return vim.lsp.handlers.hover(_, result, ctx, config)
-      end
-
-      vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
-          config = config or {}
-          config.border = "single"
-          return vim.lsp.handlers.signature_help(_, result, ctx, config)
-      end
-
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())  -- nvim-cmp
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())  -- blink.cmp
-
-      -- { "pylsp", "vimls", "lua_ls", "matlab_ls" }
-      local servers = {
-          -- clangd = {},
-          -- gopls = {},
-          -- pylsp: 补全第三方库
-          -- 修改 C:\Users\ThinkPad\AppData\Local\nvim-data\mason\packages\python-lsp-server\venv\pyvenv.cfg
-          -- 设置 'include-system-site-packages = true'
-          -- pylsp = {
-          --     settings = {
-          --         pylsp = {
-          --             plugins = {
-          --                 jedi_completion = {
-          --                     enabled = true,
-          --                     fuzzy = true,
-          --                     include_params = true, -- this line enables snippets
-          --                     cache_for = { 'numpy','matplotlib' },
-          --                 },
-          --                 pycodestyle = {
-          --                     maxLineLength = 150,
-          --                 },
-          --             },
-          --         },
-          --     },
-          -- },
-          pyright = {},
-          -- pylsp = {},
-          tinymist = {
-              single_file_support = true,
-              settings = {
-                  formatterMode = 'typstyle',
-                  exportPdf = 'onSave',  --pdf保存预览
-                  -- exportPdf = 'onType',  --pdf实时预览
-              },
-          },
-          lua_ls = {
-              -- cmd = {...},
-              -- filetypes { ...},
-              -- capabilities = {},
-              settings = {
-                  Lua = {
-                      runtime = { version = 'LuaJIT' },
-                      workspace = {
-                          checkThirdParty = false,
-                          -- Tells lua_ls where to find all the Lua files that you have loaded
-                          -- for your neovim configuration.
-                          -- library = {
-                          -- '${3rd}/luv/library',
-                          -- unpack(vim.api.nvim_get_runtime_file('', true)),
-                          -- },
-                          -- If lua_ls is really slow on your computer, you can try this instead:
-                          library = { vim.env.VIMRUNTIME },
-                      },
-                      completion = {
-                          callSnippet = 'Replace',
-                      },
-                      -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                      diagnostics = { disable = { 'missing-fields' } },
-                  },
-              },
-          },
-      }
-
-      require('mason').setup()
-
-      -- LSP
-      local ensure_installed = vim.tbl_keys(servers or {})
-      require("mason-lspconfig").setup({
-          ensure_installed = ensure_installed
-      })
-
-      require('mason-lspconfig').setup {
-          handlers = {
-              function(server_name)
-                  local server = servers[server_name] or {}
-                  -- This handles overriding only values explicitly passed
-                  -- by the server configuration above. Useful when disabling
-                  -- certain features of an LSP (for example, turning off formatting for tsserver)
-                  server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                  require('lspconfig')[server_name].setup(server)
+      dependencies = {
+          { "saghen/blink.cmp" },
+          {
+              "mason-org/mason.nvim",
+              build = ":MasonUpdate",
+              config = function()
+                  require("mason").setup()
               end,
           },
-      }
+          { "mason-org/mason-lspconfig.nvim" },
+      },
 
-      -- diagnostic config
-      local signs = { Error = '', Warn  = '', Hint  = '', Info  = '' }
-      for type, icon in pairs(signs) do
-          local hl = 'DiagnosticSign' .. type
-          vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+      config = function()
+          -- ============================================================
+          -- LSP Attach
+          -- ============================================================
+          vim.api.nvim_create_autocmd("LspAttach", {
+              group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 
-      vim.diagnostic.config({
-          virtual_text = {
-              prefix = '●',  -- , , , ●
-          },
-          underline = false,
-          signs = true,
-          update_in_insert = false, -- default is false
-          severity_sort = true, -- default is false
-          float = {
-              focusable = true,
-              style = 'minimal',
-              border = 'rounded',
-              show_header = true,
-              source = 'always',
-              -- source = 'if_many',
-              header = "",
-              prefix = "",
-          },
-      })
+              callback = function(event)
+                  local map = function(mode, keys, func, desc)
+                      vim.keymap.set(
+                          mode,
+                          keys,
+                          func,
+                          { buffer = event.buf, desc = "LSP: " .. desc }
+                      )
+                  end
 
-      -- diagnostics开关设置
-      local diagnostics_active = false
-      vim.diagnostic.enable(diagnostics_active)  -- 默认关闭diagnostics
-      local function toggle_diagnostics()
-          diagnostics_active = not diagnostics_active
+                  map("n", "gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+                  -- map("n", "gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+                  map("n", "gD", vim.lsp.buf.type_definition, "[G]oto [D]eclaration")
+                  map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
+                  map("n", "gh", vim.lsp.buf.signature_help, "[G]oto signature [H]elp")
+                  map("n", "gr", vim.lsp.buf.references, "[G]oto [R]eferences")
+                  map("n", "gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+                  map("n", "<leader>lr", vim.lsp.buf.rename, "[R]ename")
+                  map("n", "<leader>la", vim.lsp.buf.code_action, "Code [A]ction")
+                  map("n", "<leader>lf", vim.lsp.buf.format, "[F]ormat")
+
+                  -- Diagnostic keymaps
+                  map("n", "[d", vim.diagnostic.goto_prev, "Previous [D]iagnostic")
+                  map("n", "]d", vim.diagnostic.goto_next, "Next [D]iagnostic")
+                  map("n", "<leader>lq", vim.diagnostic.setqflist, "Diagnostic [Q]uickfix")
+              end,
+          })
+
+          -- ============================================================
+          -- LSP 浮动窗口
+          -- ============================================================
+          vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
+              config = config or {}
+              config.border = "single"
+              return vim.lsp.handlers.hover(_, result, ctx, config)
+          end
+
+          vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
+              config = config or {}
+              config.border = "single"
+              return vim.lsp.handlers.signature_help(_, result, ctx, config)
+          end
+
+          -- ============================================================
+          -- LSP capabilities
+          -- ============================================================
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+          capabilities = vim.tbl_deep_extend(
+              "force",
+              capabilities,
+              require("blink.cmp").get_lsp_capabilities()
+          )
+
+          -- ============================================================
+          -- LSP Servers
+          -- ============================================================
+          local servers = {
+              pyright = {},
+
+              tinymist = {
+                  single_file_support = true,
+                  settings = {
+                      formatterMode = "typstyle",
+                      exportPdf = "onSave",
+                      -- exportPdf = "onType",
+                  },
+              },
+
+              lua_ls = {
+                  -- 不使用 .git 作为 Lua workspace root
+                  -- 避免 ~/.git 导致整个 $HOME 被识别成 Lua workspace
+                  root_markers = {
+                      { ".emmyrc.json", ".luarc.json", ".luarc.jsonc" },
+                      {
+                          ".luacheckrc",
+                          ".stylua.toml",
+                          "stylua.toml",
+                          "selene.toml",
+                          "selene.yml",
+                      },
+                  },
+
+                  settings = {
+                      Lua = {
+                          runtime = {
+                              version = "LuaJIT",
+                          },
+                          workspace = {
+                              checkThirdParty = false,
+                              library = {
+                                  vim.env.VIMRUNTIME,
+                              },
+                          },
+                          completion = {
+                              callSnippet = "Replace",
+                          },
+                          diagnostics = {
+                              disable = {
+                                  "missing-fields",
+                              },
+                          },
+                      },
+                  },
+              },
+          }
+
+          -- ============================================================
+          -- Mason
+          -- ============================================================
+          require("mason").setup()
+
+          local ensure_installed = vim.tbl_keys(servers)
+
+          require("mason-lspconfig").setup({
+              ensure_installed = ensure_installed,
+          })
+
+          -- ============================================================
+          -- Neovim 0.11+ 原生 LSP 配置
+          -- ============================================================
+          for server_name, server in pairs(servers) do
+              server.capabilities = vim.tbl_deep_extend(
+                  "force",
+                  {},
+                  capabilities,
+                  server.capabilities or {}
+              )
+              vim.lsp.config(server_name, server)
+              vim.lsp.enable(server_name)
+          end
+
+          -- ============================================================
+          -- Diagnostic signs
+          -- ============================================================
+          local signs = {
+              Error = "",
+              Warn = "",
+              Hint = "",
+              Info = "",
+          }
+
+          for type, icon in pairs(signs) do
+              local hl = "DiagnosticSign" .. type
+              vim.fn.sign_define(hl, {
+                  text = icon,
+                  texthl = hl,
+                  numhl = hl,
+              })
+          end
+
+          -- ============================================================
+          -- Diagnostic config
+          -- ============================================================
+          vim.diagnostic.config({
+              virtual_text = {
+                  prefix = "●",
+              },
+              underline = false,
+              signs = true,
+              update_in_insert = false,
+              severity_sort = true,
+
+              float = {
+                  focusable = true,
+                  style = "minimal",
+                  border = "rounded",
+                  show_header = true,
+                  source = "always",
+                  header = "",
+                  prefix = "",
+              },
+          })
+
+          -- ============================================================
+          -- Diagnostics 开关
+          -- ============================================================
+          local diagnostics_active = false
+
           vim.diagnostic.enable(diagnostics_active)
-          require('lualine').refresh()
-          print(diagnostics_active and "Diagnostics ON" or "Diagnostics OFF")
-      end
-      neomap('n', '<F8>', toggle_diagnostics, { desc = 'Toggle diagnostics' })
 
-      neomap('n', '<F7>', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-      neomap('n', '<leader>ld', vim.diagnostic.setloclist, { desc = 'LSP: [D]iagnostic quickfix list' })
-    end,
+          local function toggle_diagnostics()
+              diagnostics_active = not diagnostics_active
+              vim.diagnostic.enable(diagnostics_active)
+
+              require("lualine").refresh()
+
+              print(
+                  diagnostics_active
+                      and "Diagnostics ON"
+                      or "Diagnostics OFF"
+              )
+          end
+
+          neomap( "n", "<F8>", toggle_diagnostics, { desc = "Toggle diagnostics" })
+          neomap( "n", "<F7>", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+          neomap( "n", "<leader>ld", vim.diagnostic.setloclist, { desc = "LSP: [D]iagnostic quickfix list" })
+      end,
   },
 -- }}}
 -- {{{ Saghen/blink.cmp
