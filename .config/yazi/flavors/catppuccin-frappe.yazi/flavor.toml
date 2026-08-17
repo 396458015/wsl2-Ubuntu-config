@@ -212,6 +212,25 @@ icon_error = ""
 
 # : }}}
 
+[git]
+unknown   = { fg = "#ec613f" }
+modified  = { fg = "#ec613f" }
+added     = { fg = "#ec613f" }
+untracked = { fg = "#FFD700" }
+ignored   = { fg = "#ae96ee" }
+deleted   = { fg = "#ec613f" }
+updated   = { fg = "#ec613f" }
+clean     = { fg = "#6cc749" }
+
+unknown_sign   = " "
+modified_sign  = "M"
+added_sign     = "A"
+untracked_sign = "?"
+ignored_sign   = "."
+deleted_sign   = "D"
+updated_sign   = "R"
+clean_sign     = "✓"
+
 # : File-specific styles {{{
 
 [filetype]

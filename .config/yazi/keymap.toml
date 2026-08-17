@@ -134,6 +134,7 @@ keymap = [
 	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "config dir" },
 	# { on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "Go to the downloads directory" },
 	{ on = [ "g", "t" ],       run = "cd /tmp",          desc = "temporary dir" },
+    { on = [ "g", "T" ],       run = "plugin trash",     desc = "Go to trash bin" },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "dir interactively" },
 	# { on = [ "g", "d" ], run = "cd 'C:/Users/ThinkPad/Desktop'", desc = "Desktop" },
 	# { on = [ "g", "D" ], run = "cd 'D:/Dotfiles'", desc = "Dotfiles" },
@@ -146,11 +147,6 @@ keymap = [
 	# { on = [ "g", "y" ], run = "cd 'C:/Users/ThinkPad/AppData/Roaming/yazi/config'", desc = "yazi config" },
 	# { on = [ "g", "l" ], run = "cd 'C:/Users/ThinkPad/AppData/Roaming/lazygit'", desc = "lazygit config" },
 	# { on = [ "g", "s" ], run = "cd 'C:/Users/ThinkPad/AppData/Roaming/Microsoft/Windows/Start Menu/Programs'", desc = "Start Menu (Win10)" },
-    # {
-    #     on = [ "g", "r" ],
-    #     run = 'shell -- cmd /C ""D:\Program Files\Directory Opus Pro_13.18\dopusrt.exe" /cmd Go PATH=/trash NEWTAB"',
-    #     desc = "回收站",
-    # },
 	# { on = [ "g", "T" ], run = "cd 'C:/Users/ThinkPad/AppData/Roaming/typst/packages/local'", desc = "typst templates" },
 
 	# { on = [ "g", "L" ], run = "cd '//wsl.localhost/Ubuntu/home/thinkpad/latex/latex_note'", desc = "Latex notes" },

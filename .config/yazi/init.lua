@@ -29,9 +29,10 @@ require("smart-enter"):setup {
 
 
 -- git.yazi
-require("git"):setup({
-    show_branch = true
-})
+require("git"):setup {
+	-- Order of status signs showing in the linemode
+	order = 1500,
+}
 
 
 -- mime-ext.yazi
@@ -47,6 +48,7 @@ require("mime-ext.local"):setup {
         ps1  = "text/plain",
         tex  = "text/plain",
         bib  = "text/plain",
+        typ  = "text/plain",
 	},
 	fallback_file1 = false,
 }
